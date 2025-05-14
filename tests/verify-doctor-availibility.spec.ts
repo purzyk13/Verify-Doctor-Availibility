@@ -68,4 +68,5 @@ test.only("GO to site", async ({ page }) => {
   console.log(await availibilityInfo);
   // const result = availibilityInfo; // <- np. result scrape'u
   await appendToSheet(await availibilityInfo);
+  page.close();
 });
