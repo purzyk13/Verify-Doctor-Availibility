@@ -24,16 +24,24 @@ jobs:
         with:
           node-version: 18
 
-      - name: Cache node modules
+      - name: Cache node_modules and npm
         uses: actions/cache@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          path: |
+            node_modules
+            ~/.npm
+        key: ${{ runner.os }}-modules-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-modules-
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+        key: ${{ runner.os }}-playwright-browsers
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Install Playwright + system deps
         run: npx playwright install --with-deps
@@ -42,5 +50,5 @@ jobs:
         run: |
           echo "${GOOGLE_CREDENTIALS}" > src/credentials.json
 
-      - name: Run script
-        run: npx playwright test tests/verify-doctor-availibility.spec.ts
+      - name: Run script directly
+        run: npx ts-node tests/verify-doctor-availibility.spec.ts
