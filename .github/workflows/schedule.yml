@@ -32,7 +32,7 @@ jobs:
             ~/.npm
           key: ${{ runner.os }}-modules-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-          ${{ runner.os }}-modules-
+            ${{ runner.os }}-modules-
 
       - name: Cache Playwright browsers
         uses: actions/cache@v3
@@ -48,6 +48,7 @@ jobs:
 
       - name: Add credentials.json
         run: |
+          mkdir -p src
           echo "${GOOGLE_CREDENTIALS}" > src/credentials.json
 
       - name: Run script directly
