@@ -7,4 +7,4 @@ node_modules/
 /playwright/.cache/
 .env
 credentials.json
-/src/appendToSheet copy org.ts/
+src/appendToSheet copy org.ts

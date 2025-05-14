@@ -48,7 +48,7 @@ async function verifyDoctorAvailibility(
   return result.trim();
 }
 
-test.only("GO to site", async ({ page }) => {
+test("GO to site", async ({ page }) => {
   const url = process.env.URL;
   const doctorName = process.env.DOCTOR;
 
