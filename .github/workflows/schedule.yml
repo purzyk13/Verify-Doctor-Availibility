@@ -2,12 +2,19 @@ name: Run Doctor Availability Check
 
 on:
   schedule:
-    # Uruchamiaj co 15 minut
-    - cron: "*/15 * * * *"
-
+    # Uruchamiaj co 3 minut
+    - cron: "*/3 * * * *"
+  workflow_dispatch:
 jobs:
   run-script:
     runs-on: ubuntu-latest
+
+    env: # <------ USTAW TUTAJ ENV, żeby były dostępne we wszystkich krokach!
+      URL: ${{ secrets.URL }}
+      DOCTOR: ${{ secrets.DOCTOR }}
+      SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
 
     steps:
       # 1. Checkout repozytorium
@@ -23,7 +30,7 @@ jobs:
       # 3. Instalacja zależności
       - name: Install dependencies
         run: npm install
-        
+
       - name: Install Chromium only
         run: npx playwright install chromium
 
