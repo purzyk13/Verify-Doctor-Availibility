@@ -14,7 +14,11 @@ jobs:
       DOCTOR: ${{ secrets.DOCTOR }}
       SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-
+      TWILIO_SID: ${{ secrets.TWILIO_SID }}
+      TWILIO_AUTH: ${{ secrets.TWILIO_AUTH }}
+      TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
+      SMS_RECIPIENTS: ${{ secrets.SMS_RECIPIENTS }}
+      
     steps:
       # 1. Checkout repozytorium
       - name: Checkout repository
