@@ -51,3 +51,6 @@ jobs:
       # 6. Uruchom skrypt
       - name: Run script
         run: npx playwright test tests/verify-doctor-availibility.spec.ts
+      # 7. Uruchom monitor A1 i wyślij SMS jeśli trzeba
+      - name: Run A1 monitor and notify
+        run: npx ts-node src/checkAndNotify.ts
