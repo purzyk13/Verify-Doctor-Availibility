@@ -57,7 +57,22 @@ test("GO to site", async ({ page }) => {
   }
 
   await page.goto(url);
-  const dateTime = new Date().toLocaleString();
+
+  const dateTimeNonFormated = new Date();
+  const options: Intl.DateTimeFormatOptions = {
+  timeZone: 'Europe/Warsaw',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: false,
+};
+
+
+  const dateTime = dateTimeNonFormated.toLocaleString('pl-PL', options);
+
   const doctorModule = page.locator(".lekarz");
 
   // Wywołanie funkcji i wyświetlenie resultu
