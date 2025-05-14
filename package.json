@@ -1,0 +1,39 @@
+{
+  "name": "cmbrozka-refresher",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "tsc --noEmit && eslint .",
+    "test": "npx playwright tdest --headed",
+    "test:pwbasic": "npx playwright test -g @pwbasic",
+    "test:pwbasic:headed": "npx playwright test -g @pwbasic --headed",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "test:ui": "npx playwright test --ui",
+    "test:nolint": "npx playwright test",
+    "show-report": "npx playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.17",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-playwright": "^2.2.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "google-auth-library": "^9.15.1",
+    "googleapis": "^148.0.0",
+    "prettier": "^3.5.3",
+    "spell-checker": "^0.0.26",
+    "typescript": "^5.8.3"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "description": ""
+}
