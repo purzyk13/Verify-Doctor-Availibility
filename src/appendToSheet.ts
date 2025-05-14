@@ -11,18 +11,30 @@ export async function appendToSheet(dataText: string): Promise<void> {
   const authClient: JWT = await auth.getClient() as JWT;
   const sheets: sheets_v4.Sheets = google.sheets({ version: 'v4', auth: authClient });
 
-  const spreadsheetId = process.env.SPREADSHEET_ID;
-  const range = 'Arkusz1!A:A';
+  const spreadsheetId = process.env.SPREADSHEET_ID!;
+  const sheetName = 'Arkusz1';
+  const columnRange = `${sheetName}!A:A`;
 
-  await sheets.spreadsheets.values.append({
+  // 1. Pobierz istniejące dane
+  const existingData = await sheets.spreadsheets.values.get({
     spreadsheetId,
-    range,
+    range: columnRange,
+  });
+
+  const oldValues = existingData.data.values ?? [];
+
+  // 2. Dodaj nowy wpis na początek
+  const updatedValues = [[dataText], ...oldValues];
+
+  // 3. Nadpisz wszystkie dane w kolumnie A
+  await sheets.spreadsheets.values.update({
+    spreadsheetId,
+    range: columnRange,
     valueInputOption: 'RAW',
-    insertDataOption: 'INSERT_ROWS',
     requestBody: {
-      values: [[dataText]],
+      values: updatedValues,
     },
   });
 
-  console.log('Dodano do arkusza:', dataText);
+  console.log('Nowy wpis w A1:', dataText);
 }
