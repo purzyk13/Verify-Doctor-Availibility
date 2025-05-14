@@ -2,53 +2,45 @@ name: Run Doctor Availability Check
 
 on:
   schedule:
-    # Uruchamiaj co 3 minut
     - cron: "*/10 * * * *"
   workflow_dispatch:
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
 
-    env: # <------ USTAW TUTAJ ENV, żeby były dostępne we wszystkich krokach!
+    env:
       URL: ${{ secrets.URL }}
       DOCTOR: ${{ secrets.DOCTOR }}
       SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
       GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-
     steps:
-      # 1. Checkout repozytorium
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Ustaw Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # 3. Instalacja zależności
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm install
 
-      - name: Install Chromium only
-        run: npx playwright install chromium
+      - name: Setup Playwright
+        uses: microsoft/playwright-github-action@v1
 
-      # 4. Ustaw zmienne środowiskowe
-      - name: Set environment variables
-        env:
-          URL: ${{ secrets.URL }}
-          DOCTOR: ${{ secrets.DOCTOR }}
-          SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-        run: echo "Environment variables set"
-
-      # 5. Dodaj plik credentials.json
       - name: Add credentials.json
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         run: |
           echo "${GOOGLE_CREDENTIALS}" > src/credentials.json
 
-      # 6. Uruchom skrypt
       - name: Run script
         run: npx playwright test tests/verify-doctor-availibility.spec.ts

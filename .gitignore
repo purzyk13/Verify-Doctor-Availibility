@@ -8,3 +8,4 @@ node_modules/
 .env
 credentials.json
 src/appendToSheet copy org.ts
+.github/workflows/schedule_legacy.yml
