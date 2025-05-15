@@ -37,7 +37,7 @@ async function checkAndNotify() {
   const spreadsheetId = process.env.SPREADSHEET_ID!;
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId,
-    range: 'Arkusz1!A1:A2',
+    range: 'Arkusz1!A1:A1',
   });
 
   const rows = res.data.values ?? [];
@@ -60,7 +60,7 @@ async function checkAndNotify() {
   if (found) {
     console.log('Wysyłanie SMS:\n', message);
     await sendSMS(`Dostepne terminy:\n${message}`);
-    await sendSmsApi(`Dostepne terminy:\n${message}`);
+    // await sendSmsApi(`Dostepne terminy:\n${message}`);
 
   } else {
     console.log('Brak dostępnych terminów w A1–A2');
