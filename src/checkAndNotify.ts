@@ -3,6 +3,8 @@ import { JWT } from 'google-auth-library';
 import path from 'path';
 import { Twilio } from 'twilio';
 import dotenv from 'dotenv';
+import { sendSmsApi } from './sendSmsApi'; // Import funkcji sendSms
+
 dotenv.config();
 
 // Konfiguracja SMS
@@ -35,7 +37,7 @@ async function checkAndNotify() {
   const spreadsheetId = process.env.SPREADSHEET_ID!;
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId,
-    range: 'Arkusz1!A1:A4',
+    range: 'Arkusz1!A1:A2',
   });
 
   const rows = res.data.values ?? [];
@@ -57,9 +59,11 @@ async function checkAndNotify() {
 
   if (found) {
     console.log('Wysyłanie SMS:\n', message);
-    await sendSMS(`🩺 Dostępne terminy:\n${message}`);
+    await sendSMS(`Dostepne terminy:\n${message}`);
+    await sendSmsApi(`Dostepne terminy:\n${message}`);
+
   } else {
-    console.log('Brak dostępnych terminów w A1–A4');
+    console.log('Brak dostępnych terminów w A1–A2');
   }
 }
 

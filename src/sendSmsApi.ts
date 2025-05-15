@@ -5,8 +5,10 @@ dotenv.config();
 
 const token = process.env.SMSAPI_TOKEN;
 const from = process.env.SMSAPI_FROM;
-const recipients = process.env.SMSAPI_TO?.split(',').map(n => n.trim());
+const recipients = process.env.SMSAPI_TO ? process.env.SMSAPI_TO.split(',').map(n => n.trim()): [];
 const message = process.argv.slice(2).join(' ') || 'Wiadomosc testowa z SMSAPI';
+
+
 
 if (!token) {
   console.error('❌ Brakuje SMSAPI_TOKEN w pliku .env');
@@ -18,7 +20,7 @@ if (!recipients || recipients.length === 0) {
   process.exit(1);
 }
 
-(async () => {
+export async function sendSmsApi(message: string): Promise<void> {
   for (const to of recipients) {
     try {
       const params = new URLSearchParams({
@@ -27,10 +29,6 @@ if (!recipients || recipients.length === 0) {
         from: from || 'SMSAPI',
         format: 'json',
       });
-
-      // if (from) {
-      //   params.append('from', from);
-      // }
 
       const response = await axios.post('https://api.smsapi.pl/sms.do', params, {
         headers: {
@@ -46,4 +44,4 @@ if (!recipients || recipients.length === 0) {
       console.error(`❌ Błąd przy wysyłaniu SMS do ${to}:`, err.response?.data || err.message);
     }
   }
-})();
+}
