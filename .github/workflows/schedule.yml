@@ -18,7 +18,9 @@ jobs:
       TWILIO_AUTH: ${{ secrets.TWILIO_AUTH }}
       TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
       SMS_RECIPIENTS: ${{ secrets.SMS_RECIPIENTS }}
-      
+      SMSAPI_TOKEN: ${{ secrets.SMSAPI_TOKEN}}
+      SMSAPI_FROM: ${{ secrets.SMSAPI_FROM}}
+      SMSAPI_TO: ${{ secrets.SMSAPI_TO}}
     steps:
       # 1. Checkout repozytorium
       - name: Checkout repository
