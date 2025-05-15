@@ -59,7 +59,7 @@ async function checkAndNotify() {
 
   if (found) {
     console.log('Wysyłanie SMS:\n', message);
-    await sendSMS(`Dostepne terminy:\n${message}`);
+    // await sendSMS(`Dostepne terminy:\n${message}`);
     // await sendSmsApi(`Dostepne terminy:\n${message}`);
 
   } else {
